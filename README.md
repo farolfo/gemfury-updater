@@ -18,3 +18,7 @@ In english words, we will ping your [github](http://www.github.com) repo and che
 Very very simple...
 
 ![alt text](/resources/flowPng.png "Graph not found :( ...")
+
+###Other cool tools for NPM management
+
+ *  [David](https://david-dm.org/) keeps track on my package.json file and tells me what dependencies are out of date and what is the new version with its changelog.
