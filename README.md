@@ -13,8 +13,7 @@ In english words, we will ping your [github](http://www.github.com) repo and che
 So you basically you will have to do nothin' in order to be sure that your builds will work (at least on the dependecies download part).
 
 
-Project overview
-----------------
+###Project overview
 
 Very very simple...
 
