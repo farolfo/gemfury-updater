@@ -11,3 +11,11 @@ So here comes the *gemfury-updater*, an application that will poll every so ofte
 In english words, we will ping your [github](http://www.github.com) repo and check in the `package.json` (the first version has NPM modules for 'node' support only) if there is any change. If so, it will update your Gemfury with this new updates.
 
 So you basically you will have to do nothin' in order to be sure that your builds will work (at least on the dependecies download part).
+
+
+Project overview
+----------------
+
+Very very simple...
+
+![alt text](/resources/flowPng.png "Graph not found :( ...")
