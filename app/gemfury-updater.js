@@ -1,9 +1,11 @@
 var packageJsonDAO = require('./packageJsonDAO'),
+	config = require('../config.json'),
 	fs = require('fs'),
 	Q = require('q'),
 	fsExtra = require('fs.extra'),
 	npm = require('npm'),
 	log4js = require('log4js'),
+	restler = require('restler'),
 	exec = require('child_process').exec;
 
 var logger = log4js.getLogger();
@@ -44,7 +46,10 @@ var createTmpFolder = function() {
 
 var updateRepo = function() {
 	packModules();
-	postModulesToRepo();
+	setTimeout((function() {
+		console.log("updating !!");
+		postModulesToRepo();
+	}), 20000);
 };
 
 var packModules = function() {
@@ -66,5 +71,28 @@ var packModule = function(module) {
 };
 
 var postModulesToRepo = function() {
+	var modules = fs.readdirSync('./temp/packedModules');
 
+console.log("modules are" + modules)
+	modules.forEach(function(module) {
+		postModuleToRepo(module);
+	});
+};
+
+var postModuleToRepo = function(module) {
+	var filename = './temp/packedModules/' + module,
+		stats = fs.statSync(filename);
+
+	logger.info("Updating module " + module + " in gemfury...");
+console.log("url -> " + config.gemfuryUploadURL);
+    restler.post( config.gemfuryUploadURL, {
+        multipart: true,
+        data: {
+            "package": restler.file(filename, null, stats.size, null, "application/x-compressed")
+        }
+    }).on("complete", function(data) {
+        logger.info("Module " + module + " updated in gemfury");
+    }).on("fail", function(data){
+    	logger.error("Failed updating " + module + " " + data);
+    });
 };
