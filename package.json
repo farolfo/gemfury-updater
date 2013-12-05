@@ -1,0 +1,13 @@
+{
+  "name": "gemfury-updater",
+  "description": "Automatic updater for your private remote server (that runs in Gemfury)",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "node-schedule": "*",
+    "log4js": "*",
+    "npm": "*",
+    "fs.extra": "*",
+    "q": "*"
+  }
+}
