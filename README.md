@@ -12,13 +12,28 @@ In english words, we will ping your [github](http://www.github.com) repo and che
 
 **So you basically will have to do nothin' in order to be sure that your builds will work** (at least on the dependecies download part).
 
+####Run
 
-###Project overview
+This is a basic node application, so you only need to run 
+
+      node ./app/main.js
+
+####Project overview
 
 Very very simple...
 
 ![alt text](/resources/flowPng.png "Graph not found :( ...")
 
-###Other cool tools for NPM management
+####In case you have troubles...
+
+The tricky part of this project is [installing](https://npmjs.org/doc/install.html) npm modules and then [packing](https://npmjs.org/doc/cli/npm-pack.html) them.
+
+To do this, make sure you run the application with enough permissions needed.
+
+Besides, some npm modules need some shell commands like `make` or some others. To make sure you have what is needed, just run `npm pack` in each folder of each package you want to update and make sure that a <name>.tgz file is generated there.
+    
+If you have any other trouble, contact me at francoarolfo@hotmail.com (yes, I still use hotmail) and we will figure it out !
+
+####Other cool tools for NPM management
 
  *  [David](https://david-dm.org/) keeps track on my package.json file and tells me what dependencies are out of date and what is the new version with its changelog.
