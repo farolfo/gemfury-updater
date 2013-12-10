@@ -16,7 +16,10 @@ In english words, we will ping your [github](http://www.github.com) repo and che
 
 This is a basic node application, so you only need to run 
 
-      node ./app/main.js
+```bash
+$ npm   install
+$ node ./app/main
+```
 
 ####Project overview
 
