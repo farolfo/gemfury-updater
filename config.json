@@ -1,3 +1,8 @@
 {
-	"gemfuryUploadURL": "https://push.fury.io/ob8CxPAkNKpsw6cE2x5F/farolfo/"
+	"gemfuryUploadURL": "https://push.fury.io/ob8CxPAkNKpsw6cE2x5F/farolfo/",
+	"github": {
+		"token": "19ca18d5d321da83c2b7400d4f787af0986f6bf9",
+		"username": "farolfo",
+		"repo": "gemfury-updater" 
+	}
 }

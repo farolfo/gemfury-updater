@@ -1,20 +1,22 @@
 var GitHubApi = require('github'),
 	log4js = require('log4js'),
-	config = require('config');
+	config = require('../config.json');
 
 var github = new GitHubApi({version: '3.0.0'}),
-	logger = log4js.getLogger();
-//19ca18d5d321da83c2b7400d4f787af0986f6bf9  API TOKEN
+	logger = log4js.getLogger(),
+	user, repo, path;
 
-if (config.github) {
-    github.authenticate({
-            type: 'basic',
-            username: config.github.username,
-            password: config.github.password
-    });
-    user = config.username;
-    repo = config.repo;
-    path = config.path ? config.path : 'package.json'
+function authenticateGitHub() {
+	if (config.github) {
+	    github.authenticate({
+	        type: "oauth",
+    		token: config.github.token
+	    });
+	    user = config.github.username;
+	    repo = config.github.repo;
+	    path = config.github.path ? config.github.path : 'package.json'
+	}
+	logger.info("Github authentication succeed with\nuser: "+user+"\nrepo: "+repo+"\npath: " + path);
 }
 
 function parsePackageJson(body) {
@@ -26,24 +28,26 @@ function parsePackageJson(body) {
         }
 }
 
-github.repos.getContent({user: user, repo: repo, path: path}, function(err, resp) {
-    if (err) {
-            logger.error(err);
-            return;
-    }
+exports.init = function() {
+	authenticateGitHub();
+};
 
-    var packageJson = new Buffer(resp.content, resp.encoding).toString();
-    var data = parsePackageJson(packageJson);
+exports.getFile = function(callback) {
+	github.repos.getContent({user: user, repo: repo, path: path}, function(err, resp) {
+	    if (err) {
+	        logger.error("Failed to get package.json - " + err);
+	        return;
+	    }
 
-    if (!data) {
-            callback(new Error('Failed to parse package.json: ' + packageJson));
-            return;
-    } else {
-            console.log('Got manifest', data.name, data.version);
-            return data;
-    }
-});
-/*
-exports.getFile = function() {
-	return fs.readFileSync('/Users/farolfo/Projects/Mulesoft/ion-console/console-web-html/package.json');
-};*/
+	    var packageJson = new Buffer(resp.content, resp.encoding).toString();
+	    var data = parsePackageJson(packageJson);
+
+	    if (!data) {
+	            logger.error("The package.json given is corrupted or has syntax errors - \n" + packageJson);
+	    } else {
+	        	logger.info("Package.json succesfully retrived");
+	            callback(packageJson);
+	    }
+	    return;
+	});
+};

@@ -9,6 +9,7 @@
     "npm": "*",
     "fs.extra": "*",
     "q": "*",
-    "restler": "*"
+    "restler": "*",
+    "github": "*"
   }
 }
