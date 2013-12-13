@@ -14,7 +14,32 @@ In english words, we will ping your [github](http://www.github.com) repo and che
 
 ####Run
 
-This is a basic node application, so you only need to run 
+First of all you need to configure the application by touching the `config.json` file in the root directory.
+It shoud look like this:
+
+```
+{
+        "gemfuryUploadURL": "https://push.fury.io/45ge4dttgfe45gt5ger/farolfo/",
+        "github": {
+                "token": "9e8hrg9e8hgf9e8rjf9wrfvrw9fvejw9fwe9jvwe98fvs",
+                "username": "farolfo",
+                "repo": "gemfury-updater" 
+        }
+}
+```
+
+That is an example if I'd wanted to keep track on the `package.json` file of this project.
+
+The parameters are:
+
+* `gemfuryUploadURL`: The URL to push to your gemfury repo. You can know it by taking a look at the __upload__ section of your gemfury account.
+* `github`: Here we will set the configuration for the repo you want to track
+    * `token`: OAuth token of your GitHub account, so you can access to your repository. If you don't have a token, you can generate it by going to the __settings__ view of your GitHub account, __applications__ tab, and click on _create new token_ on the __Personal Access Tokens__ section.
+    * `username`: The username where you have your repo hosted.
+    * `repo`: The name of your project's repository.
+
+After that you should be able to use your gemfury-updater.
+This is a basic node application, so you only need to run in the root directory
 
 ```bash
 $ npm   install
