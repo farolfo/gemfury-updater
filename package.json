@@ -10,6 +10,7 @@
     "fs.extra": "*",
     "q": "*",
     "restler": "*",
-    "github": "*"
+    "github": "*",
+    "sync": "*"
   }
 }

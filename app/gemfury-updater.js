@@ -4,6 +4,7 @@ var packageJsonDAO = require('./packageJsonDAO'),
 	Q = require('q'),
 	fsExtra = require('fs.extra'),
 	npm = require('npm'),
+	Sync = require('sync');
 	log4js = require('log4js'),
 	restler = require('restler'),
 	exec = require('child_process').exec;
@@ -23,7 +24,6 @@ exports.run = function(file) {
     			if (er) return logger.error(er);
     			logger.info("Node modules download success");
     			updateRepo();
-    			//deleteTmpFolder();
   			});	
 		});
 	});
@@ -47,33 +47,49 @@ var createTmpFolder = function() {
 var updateRepo = function() {
 	packModules();
 	setTimeout((function() {
-		console.log("updating !!");
 		postModulesToRepo();
 	}), 20000);
 };
 
 var packModules = function() {
 	var modules = fs.readdirSync('./temp/modules/node_modules');
-
+logger.info("-------a1-------");
 	modules.forEach(function(module) {
    		if ( module !== '.bin' ) {
+   			logger.info("-------b1-------");
     		packModule(module);
+    		logger.info("-------b2-------");
+
    		}
    	});
+   	logger.info("-------a2-------");
+
 };
 
-var packModule = function(module) {
-	logger.info("Packing module " + module);
 
-	exec('cd ./temp/packedModules && npm pack ' + module, function (error, stdout, stderr) {
-		logger.info("Module " + module + " packed in " + stdout );
+
+var packModule = function(module) {
+	logger.info("-------c1-------");
+	Sync(function(){
+			logger.info("-------d1-------");
+
+		logger.info("Packing module " + module);
+		exec.sync(null, 'cd ./temp/packedModules && npm pack ' + module);
+	}, function(err, out, code){
+			logger.info("-------d2-------");
+
+		if ( err ) {
+			logger.error("Failed to pack module " + module + " - " + err);
+		} else {
+    		logger.info("Module " + module + " packed in " + out);
+		}
 	});
+	logger.info("-------c2-------");
 };
 
 var postModulesToRepo = function() {
 	var modules = fs.readdirSync('./temp/packedModules');
 
-console.log("modules are" + modules)
 	modules.forEach(function(module) {
 		postModuleToRepo(module);
 	});
@@ -84,7 +100,7 @@ var postModuleToRepo = function(module) {
 		stats = fs.statSync(filename);
 
 	logger.info("Updating module " + module + " in gemfury...");
-console.log("url -> " + config.gemfuryUploadURL);
+
     restler.post( config.gemfuryUploadURL, {
         multipart: true,
         data: {
